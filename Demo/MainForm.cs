@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Touchless.Vision.Camera;
-
-using System.Drawing.Imaging;
 
 namespace Demo
 {
@@ -28,7 +23,7 @@ namespace Demo
                 foreach (Camera cam in CameraService.AvailableCameras)
                     comboBoxCameras.Items.Add(cam);
 
-                if( comboBoxCameras.Items.Count > 0 )
+                if (comboBoxCameras.Items.Count > 0)
                     comboBoxCameras.SelectedIndex = 0;
             }
         }
@@ -47,10 +42,10 @@ namespace Demo
         private static Bitmap _latestFrame;
         private Camera CurrentCamera
         {
-           get
-           {
-              return comboBoxCameras.SelectedItem as Camera;
-           }
+            get
+            {
+                return comboBoxCameras.SelectedItem as Camera;
+            }
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -153,266 +148,266 @@ namespace Demo
 
         private IDictionary<String, CameraProperty> DisplayPropertyValues
         {
-           get
-           {
-              if( displayPropertyValues == null )
-                 displayPropertyValues = new Dictionary<String, CameraProperty>()
+            get
+            {
+                if (displayPropertyValues == null)
+                    displayPropertyValues = new Dictionary<String, CameraProperty>()
                  {
-                    { "Pan (Degrees)", CameraProperty.Pan_degrees }, 
-                    { "Tilt (Degrees)", CameraProperty.Tilt_degrees }, 
-                    { "Roll (Degrees)", CameraProperty.Roll_degrees }, 
-                    { "Zoom (mm)", CameraProperty.Zoom_mm }, 
-                    { "Exposure (log2(seconds))", CameraProperty.Exposure_lgSec }, 
-                    { "Iris (10f)", CameraProperty.Iris_10f }, 
-                    { "Focal Length (mm)", CameraProperty.FocalLength_mm }, 
-                    { "Flash", CameraProperty.Flash }, 
-                    { "Brightness", CameraProperty.Brightness }, 
-                    { "Contrast", CameraProperty.Contrast }, 
-                    { "Hue", CameraProperty.Hue }, 
-                    { "Saturation", CameraProperty.Saturation }, 
-                    { "Sharpness", CameraProperty.Sharpness }, 
-                    { "Gamma", CameraProperty.Gamma }, 
-                    { "Color Enable", CameraProperty.ColorEnable }, 
-                    { "White Balance", CameraProperty.WhiteBalance }, 
-                    { "Backlight Compensation", CameraProperty.BacklightCompensation }, 
-                    { "Gain", CameraProperty.Gain }, 
+                    { "Pan (Degrees)", CameraProperty.Pan_degrees },
+                    { "Tilt (Degrees)", CameraProperty.Tilt_degrees },
+                    { "Roll (Degrees)", CameraProperty.Roll_degrees },
+                    { "Zoom (mm)", CameraProperty.Zoom_mm },
+                    { "Exposure (log2(seconds))", CameraProperty.Exposure_lgSec },
+                    { "Iris (10f)", CameraProperty.Iris_10f },
+                    { "Focal Length (mm)", CameraProperty.FocalLength_mm },
+                    { "Flash", CameraProperty.Flash },
+                    { "Brightness", CameraProperty.Brightness },
+                    { "Contrast", CameraProperty.Contrast },
+                    { "Hue", CameraProperty.Hue },
+                    { "Saturation", CameraProperty.Saturation },
+                    { "Sharpness", CameraProperty.Sharpness },
+                    { "Gamma", CameraProperty.Gamma },
+                    { "Color Enable", CameraProperty.ColorEnable },
+                    { "White Balance", CameraProperty.WhiteBalance },
+                    { "Backlight Compensation", CameraProperty.BacklightCompensation },
+                    { "Gain", CameraProperty.Gain },
                  };
 
-              return displayPropertyValues;
-           }
+                return displayPropertyValues;
+            }
         }
 
         private IDictionary<CameraProperty, CameraPropertyCapabilities> CurrentCameraPropertyCapabilities
         {
-           get;
-           set;
+            get;
+            set;
         }
 
-        private IDictionary<CameraProperty,CameraPropertyRange> CurrentCameraPropertyRanges
+        private IDictionary<CameraProperty, CameraPropertyRange> CurrentCameraPropertyRanges
         {
-           get;
-           set;
+            get;
+            set;
         }
 
         private CameraProperty SelectedCameraProperty
         {
-           get
-           {
-              Int32 selectedIndex = cameraPropertyValue.SelectedIndex;
-              String selectedItem = cameraPropertyValue.Items[ selectedIndex ] as String;
+            get
+            {
+                Int32 selectedIndex = cameraPropertyValue.SelectedIndex;
+                String selectedItem = cameraPropertyValue.Items[selectedIndex] as String;
 
-              CameraProperty result = DisplayPropertyValues[ selectedItem ];
-              return result;
-           }
+                CameraProperty result = DisplayPropertyValues[selectedItem];
+                return result;
+            }
         }
 
         private Boolean IsSelectedCameraPropertySupported
         {
-           get;
-           set;
+            get;
+            set;
         }
 
         private Boolean IsCameraPropertyValueTypeValue
         {
-           get
-           {
-              return ( ( String ) cameraPropertyValueTypeSelection.SelectedItem ) == "Value";
-           }
+            get
+            {
+                return ((String)cameraPropertyValueTypeSelection.SelectedItem) == "Value";
+            }
         }
 
         private Boolean IsCameraPropertyValueTypePercentage
         {
-           get
-           {
-              return ( ( String ) cameraPropertyValueTypeSelection.SelectedItem ) == "Percentage";
-           }
+            get
+            {
+                return ((String)cameraPropertyValueTypeSelection.SelectedItem) == "Percentage";
+            }
         }
 
         private Int32 CameraPropertyValue
         {
-           get
-           {
-              Decimal value = cameraPropertyValueValue.Value;
+            get
+            {
+                Decimal value = cameraPropertyValueValue.Value;
 
-              Int32 result;
-              if( IsCameraPropertyValueTypeValue || IsCameraPropertyValueTypePercentage )
-              {
-                 value = Math.Round( value );
+                Int32 result;
+                if (IsCameraPropertyValueTypeValue || IsCameraPropertyValueTypePercentage)
+                {
+                    value = Math.Round(value);
 
-                 result = Convert.ToInt32( value );
-              }
-              else
-                 throw new NotSupportedException( String.Format( "Camera property value type '{0}' is not supported.", ( String ) cameraPropertyValueTypeSelection.SelectedItem ) );
+                    result = Convert.ToInt32(value);
+                }
+                else
+                    throw new NotSupportedException(String.Format("Camera property value type '{0}' is not supported.", (String)cameraPropertyValueTypeSelection.SelectedItem));
 
-              return result;
-           }
+                return result;
+            }
         }
 
         private Boolean IsCameraPropertyAuto
         {
-           get
-           {
-              return cameraPropertyValueAuto.Checked;
-           }
+            get
+            {
+                return cameraPropertyValueAuto.Checked;
+            }
         }
 
         private Boolean SuppressCameraPropertyValueValueChangedEvent
         {
-           get;
-           set;
+            get;
+            set;
         }
 
         private Boolean CameraPropertyControlInitializationComplete
         {
-           get;
-           set;
+            get;
+            set;
         }
 
         private void InitializeCameraPropertyControls()
         {
-           CameraPropertyControlInitializationComplete = false;
+            CameraPropertyControlInitializationComplete = false;
 
-           CurrentCameraPropertyCapabilities = CurrentCamera.CameraPropertyCapabilities;
-           CurrentCameraPropertyRanges = new Dictionary<CameraProperty, CameraPropertyRange>();
+            CurrentCameraPropertyCapabilities = CurrentCamera.CameraPropertyCapabilities;
+            CurrentCameraPropertyRanges = new Dictionary<CameraProperty, CameraPropertyRange>();
 
-           cameraPropertyValueTypeSelection.SelectedIndex = 0;
+            cameraPropertyValueTypeSelection.SelectedIndex = 0;
 
-           cameraPropertyValue.Items.Clear();
-           cameraPropertyValue.Items.AddRange( DisplayPropertyValues.Keys.ToArray() );
+            cameraPropertyValue.Items.Clear();
+            cameraPropertyValue.Items.AddRange(DisplayPropertyValues.Keys.ToArray());
 
-           CameraPropertyControlInitializationComplete = true;
+            CameraPropertyControlInitializationComplete = true;
 
-           cameraPropertyValue.SelectedIndex = 0;
+            cameraPropertyValue.SelectedIndex = 0;
         }
 
-        private void UpdateCameraPropertyRange( CameraPropertyCapabilities propertyCapabilities )
+        private void UpdateCameraPropertyRange(CameraPropertyCapabilities propertyCapabilities)
         {
-           String text;
-           if( IsSelectedCameraPropertySupported && propertyCapabilities.IsGetRangeSupported && propertyCapabilities.IsGetSupported )
-           {
-              CameraPropertyRange range = CurrentCamera.GetCameraPropertyRange( SelectedCameraProperty );
-              text = String.Format( "[ {0}, {1} ], step: {2}", range.Minimum, range.Maximum, range.Step );
-
-              Int32 decimalPlaces;
-              Decimal minimum, maximum, increment;
-              if( IsCameraPropertyValueTypeValue )
-              {
-                 minimum = range.Minimum;
-                 maximum = range.Maximum;
-                 increment = range.Step;
-                 decimalPlaces = 0;
-              }
-              else if( IsCameraPropertyValueTypePercentage )
-              {
-                 minimum = 0;
-                 maximum = 100;
-                 increment = 0.01M;
-                 decimalPlaces = 2;
-              }
-              else
-                 throw new NotSupportedException( String.Format( "Camera property value type '{0}' is not supported.", ( String ) cameraPropertyValueTypeSelection.SelectedItem ) );
-
-              cameraPropertyValueValue.Minimum = minimum;
-              cameraPropertyValueValue.Maximum = maximum;
-              cameraPropertyValueValue.Increment = increment;
-              cameraPropertyValueValue.DecimalPlaces = decimalPlaces;
-
-              if( CurrentCameraPropertyRanges.ContainsKey( SelectedCameraProperty ) )
-                 CurrentCameraPropertyRanges[ SelectedCameraProperty ] = range;
-              else
-                 CurrentCameraPropertyRanges.Add( SelectedCameraProperty, range );
-
-              CameraPropertyValue value = CurrentCamera.GetCameraProperty( SelectedCameraProperty, IsCameraPropertyValueTypeValue );
-
-              SuppressCameraPropertyValueValueChangedEvent = true;
-              cameraPropertyValueValue.Value = value.Value;
-              cameraPropertyValueAuto.Checked = value.IsAuto;
-              SuppressCameraPropertyValueValueChangedEvent = false;
-           }
-           else
-              text = "N/A";
-
-           cameraPropertyRangeValue.Text = text;
-        }
-
-        private void cameraPropertyValueTypeSelection_SelectedIndexChanged( Object sender, EventArgs e )
-        {
-           if( CameraPropertyControlInitializationComplete )
-           {
-              CameraPropertyCapabilities propertyCapabilities = CurrentCameraPropertyCapabilities[ SelectedCameraProperty ];
-
-              CameraPropertyRange range = CurrentCameraPropertyRanges[ SelectedCameraProperty ];
-
-              Decimal previousValue = cameraPropertyValueValue.Value;
-
-              UpdateCameraPropertyRange( propertyCapabilities );
-
-              Decimal newValue;
-              if( IsCameraPropertyValueTypeValue ) // The previous value was a percentage.
-                 newValue = range.DomainSize * previousValue / 100 + range.Minimum;
-              else if( IsCameraPropertyValueTypePercentage ) // The previous value was a value.
-                 newValue = ( previousValue - range.Minimum ) * 100 / range.DomainSize;
-              else
-                 throw new NotSupportedException( String.Format( "Camera property value type '{0}' is not supported.", ( String ) cameraPropertyValueTypeSelection.SelectedItem ) );
-
-              newValue = Math.Round( newValue );
-
-              if( newValue > range.Maximum )
-                 newValue = range.Maximum;
-              else if( newValue < range.Minimum )
-                 newValue = range.Minimum;
-
-              SuppressCameraPropertyValueValueChangedEvent = true;
-              cameraPropertyValueValue.Value = newValue;
-              SuppressCameraPropertyValueValueChangedEvent = false;
-           }
-        }
-
-        private void cameraPropertyValueValue_ValueChanged( Object sender, EventArgs e )
-        {
-           if( CameraPropertyControlInitializationComplete && !SuppressCameraPropertyValueValueChangedEvent )
+            String text;
+            if (IsSelectedCameraPropertySupported && propertyCapabilities.IsGetRangeSupported && propertyCapabilities.IsGetSupported)
             {
-                 CameraPropertyValue value = new CameraPropertyValue( IsCameraPropertyValueTypePercentage, CameraPropertyValue, IsCameraPropertyAuto );
-                 CurrentCamera.SetCameraProperty( SelectedCameraProperty, value );
-           }
+                CameraPropertyRange range = CurrentCamera.GetCameraPropertyRange(SelectedCameraProperty);
+                text = String.Format("[ {0}, {1} ], step: {2}", range.Minimum, range.Maximum, range.Step);
+
+                Int32 decimalPlaces;
+                Decimal minimum, maximum, increment;
+                if (IsCameraPropertyValueTypeValue)
+                {
+                    minimum = range.Minimum;
+                    maximum = range.Maximum;
+                    increment = range.Step;
+                    decimalPlaces = 0;
+                }
+                else if (IsCameraPropertyValueTypePercentage)
+                {
+                    minimum = 0;
+                    maximum = 100;
+                    increment = 0.01M;
+                    decimalPlaces = 2;
+                }
+                else
+                    throw new NotSupportedException(String.Format("Camera property value type '{0}' is not supported.", (String)cameraPropertyValueTypeSelection.SelectedItem));
+
+                cameraPropertyValueValue.Minimum = minimum;
+                cameraPropertyValueValue.Maximum = maximum;
+                cameraPropertyValueValue.Increment = increment;
+                cameraPropertyValueValue.DecimalPlaces = decimalPlaces;
+
+                if (CurrentCameraPropertyRanges.ContainsKey(SelectedCameraProperty))
+                    CurrentCameraPropertyRanges[SelectedCameraProperty] = range;
+                else
+                    CurrentCameraPropertyRanges.Add(SelectedCameraProperty, range);
+
+                CameraPropertyValue value = CurrentCamera.GetCameraProperty(SelectedCameraProperty, IsCameraPropertyValueTypeValue);
+
+                SuppressCameraPropertyValueValueChangedEvent = true;
+                cameraPropertyValueValue.Value = value.Value;
+                cameraPropertyValueAuto.Checked = value.IsAuto;
+                SuppressCameraPropertyValueValueChangedEvent = false;
+            }
+            else
+                text = "N/A";
+
+            cameraPropertyRangeValue.Text = text;
         }
 
-        private void cameraPropertyValueAuto_CheckedChanged( Object sender, EventArgs e )
+        private void cameraPropertyValueTypeSelection_SelectedIndexChanged(Object sender, EventArgs e)
         {
-           if( CameraPropertyControlInitializationComplete )
-           {
-              CameraPropertyValue value = new CameraPropertyValue( IsCameraPropertyValueTypePercentage, CameraPropertyValue, IsCameraPropertyAuto );
-              CurrentCamera.SetCameraProperty( SelectedCameraProperty, value );
-           }
+            if (CameraPropertyControlInitializationComplete)
+            {
+                CameraPropertyCapabilities propertyCapabilities = CurrentCameraPropertyCapabilities[SelectedCameraProperty];
+
+                CameraPropertyRange range = CurrentCameraPropertyRanges[SelectedCameraProperty];
+
+                Decimal previousValue = cameraPropertyValueValue.Value;
+
+                UpdateCameraPropertyRange(propertyCapabilities);
+
+                Decimal newValue;
+                if (IsCameraPropertyValueTypeValue) // The previous value was a percentage.
+                    newValue = range.DomainSize * previousValue / 100 + range.Minimum;
+                else if (IsCameraPropertyValueTypePercentage) // The previous value was a value.
+                    newValue = (previousValue - range.Minimum) * 100 / range.DomainSize;
+                else
+                    throw new NotSupportedException(String.Format("Camera property value type '{0}' is not supported.", (String)cameraPropertyValueTypeSelection.SelectedItem));
+
+                newValue = Math.Round(newValue);
+
+                if (newValue > range.Maximum)
+                    newValue = range.Maximum;
+                else if (newValue < range.Minimum)
+                    newValue = range.Minimum;
+
+                SuppressCameraPropertyValueValueChangedEvent = true;
+                cameraPropertyValueValue.Value = newValue;
+                SuppressCameraPropertyValueValueChangedEvent = false;
+            }
         }
 
-        private void cameraPropertyValue_SelectedIndexChanged( Object sender, EventArgs e )
+        private void cameraPropertyValueValue_ValueChanged(Object sender, EventArgs e)
         {
-           if( CameraPropertyControlInitializationComplete )
-           {
-              IsSelectedCameraPropertySupported = CurrentCamera.IsCameraPropertySupported( SelectedCameraProperty );
-              CameraPropertyCapabilities propertyCapabilities = CurrentCameraPropertyCapabilities[ SelectedCameraProperty ];
-
-              UpdateCameraPropertyRange( propertyCapabilities );
-
-              cameraPropertyValueAuto.Enabled = cameraPropertyValueValue.Enabled = cameraPropertyValueTypeSelection.Enabled = IsSelectedCameraPropertySupported && propertyCapabilities.IsFullySupported;
-           }
+            if (CameraPropertyControlInitializationComplete && !SuppressCameraPropertyValueValueChangedEvent)
+            {
+                CameraPropertyValue value = new CameraPropertyValue(IsCameraPropertyValueTypePercentage, CameraPropertyValue, IsCameraPropertyAuto);
+                CurrentCamera.SetCameraProperty(SelectedCameraProperty, value);
+            }
         }
 
-        private void cameraPropertyValueValue_EnabledChanged( Object sender, EventArgs e )
+        private void cameraPropertyValueAuto_CheckedChanged(Object sender, EventArgs e)
         {
-           if( CameraPropertyControlInitializationComplete && !SuppressCameraPropertyValueValueChangedEvent && cameraPropertyValueValue.Enabled )
-           {
-              CameraPropertyValue value = CurrentCamera.GetCameraProperty( SelectedCameraProperty, IsCameraPropertyValueTypeValue );
-              cameraPropertyValueValue.Value = value.Value;
-              cameraPropertyValueAuto.Checked = value.IsAuto;
-           }
+            if (CameraPropertyControlInitializationComplete)
+            {
+                CameraPropertyValue value = new CameraPropertyValue(IsCameraPropertyValueTypePercentage, CameraPropertyValue, IsCameraPropertyAuto);
+                CurrentCamera.SetCameraProperty(SelectedCameraProperty, value);
+            }
         }
 
-        private void cameraPropertyValue_EnabledChanged( Object sender, EventArgs e )
+        private void cameraPropertyValue_SelectedIndexChanged(Object sender, EventArgs e)
         {
-           if( cameraPropertyValue.Enabled )
-              InitializeCameraPropertyControls();
+            if (CameraPropertyControlInitializationComplete)
+            {
+                IsSelectedCameraPropertySupported = CurrentCamera.IsCameraPropertySupported(SelectedCameraProperty);
+                CameraPropertyCapabilities propertyCapabilities = CurrentCameraPropertyCapabilities[SelectedCameraProperty];
+
+                UpdateCameraPropertyRange(propertyCapabilities);
+
+                cameraPropertyValueAuto.Enabled = cameraPropertyValueValue.Enabled = cameraPropertyValueTypeSelection.Enabled = IsSelectedCameraPropertySupported && propertyCapabilities.IsFullySupported;
+            }
+        }
+
+        private void cameraPropertyValueValue_EnabledChanged(Object sender, EventArgs e)
+        {
+            if (CameraPropertyControlInitializationComplete && !SuppressCameraPropertyValueValueChangedEvent && cameraPropertyValueValue.Enabled)
+            {
+                CameraPropertyValue value = CurrentCamera.GetCameraProperty(SelectedCameraProperty, IsCameraPropertyValueTypeValue);
+                cameraPropertyValueValue.Value = value.Value;
+                cameraPropertyValueAuto.Checked = value.IsAuto;
+            }
+        }
+
+        private void cameraPropertyValue_EnabledChanged(Object sender, EventArgs e)
+        {
+            if (cameraPropertyValue.Enabled)
+                InitializeCameraPropertyControls();
         }
         #endregion
     }

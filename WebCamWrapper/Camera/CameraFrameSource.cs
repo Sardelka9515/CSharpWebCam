@@ -9,7 +9,7 @@ namespace Touchless.Vision.Camera
     public class CameraFrameSource : IFrameSource
     {
         public event Action<IFrameSource, Frame, double> NewFrame;
-        
+
         public bool IsCapturing { get; private set; }
 
         private Camera _camera;
@@ -47,7 +47,7 @@ namespace Touchless.Vision.Camera
 
         public bool StartFrameCapture()
         {
-           bool result;
+            bool result;
 
             if (result = !IsCapturing && this.Camera != null)
             {

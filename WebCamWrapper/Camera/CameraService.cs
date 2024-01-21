@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 
 namespace Touchless.Vision.Camera
 {

@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
-using WindowsPoint = System.Windows.Point;
 using DrawingPoint = System.Drawing.Point;
+using WindowsPoint = System.Windows.Point;
 
 namespace Touchless.Shared.Extensions
 {
@@ -33,19 +33,19 @@ namespace Touchless.Shared.Extensions
         public static WindowsPoint ToWindowsPoint(this DrawingPoint p)
         {
             return new WindowsPoint
-                       {
-                           X = p.X,
-                           Y = p.Y
-                       };
+            {
+                X = p.X,
+                Y = p.Y
+            };
         }
 
         public static DrawingPoint ToDrawingPoint(this WindowsPoint p)
         {
             return new DrawingPoint
-                       {
-                           X = (int) p.X,
-                           Y = (int) p.Y
-                       };
+            {
+                X = (int)p.X,
+                Y = (int)p.Y
+            };
         }
 
         [DllImport("gdi32")]
