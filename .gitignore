@@ -24,6 +24,7 @@ Thumbs.db
 
 #Visual Studio Added
 bin/
+.vs/
 *.lib
 *.sbr
 *.resharper.user
